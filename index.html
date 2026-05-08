@@ -29,34 +29,22 @@
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <div class="bg-white rounded-xl shadow-md border-l-4 border-blue-600 p-6 flex flex-col">
-            <h3 class="text-xl font-bold mb-6 text-slate-700">四格漫畫 - 主題</h3>
+            <h3 class="text-xl font-bold mb-6 text-slate-700">第一步 <span class="font-normal">內容生成</h3>
             
             <div class="space-y-8 flex-1">
                 <div class="flex items-center gap-2">
                     <div class="flex-1">
-                        <span class="text-sm font-bold text-slate-400 block mb-1">第 1 步 <span class="font-normal">先貼上內容生成prompt</span></span>
-                        <div id="q1-1" class="bg-slate-50 p-4 rounded-lg border text-slate-700 text-lg leading-relaxed shadow-sm" style="white-space: pre-wrap;">
-
-# 你現在是一位專業的四格漫畫（4-panel Comic）家，擅長將艱澀知識拆解為容易理解的四格漫畫。
-
-# 請針對以下年級及主題，為我整理出適合製作成四格漫畫的內容：
-- 📌 年級：[請輸入年級]
-- 📌 主題：[請輸入主題]
-
-# 請針對以上資訊，提供以下內容：
-1. 🎯【構思內容】：用一句話概括這張漫畫要傳達的核心訊息，根據年級程度，提供 3-5 組故事方案。每組需簡述四格內容（起、承、轉、合），包括角色、對白或旁白以及核心學習內容。
-2. 🎨【色彩與風格】：建議4-6套適合漫畫的色彩組合，以及4-6種適合的漫畫風格。
-                            
-# 🔢 請使用繁體中文輸出，具備漫畫敘事特質，並所有項目標上編號，方便我直接用代號回應。
-
----
-⚠️ 請使用繁體中文輸出。</div>
-
-        <button onclick="copyText('q1-1')" class="w-full bg-[#137a74] hover:bg-[#0e5e59] text-white py-4 rounded-xl font-bold text-xl shadow-md transition-all active:scale-95">
-            點我複製以上指令 📋
-        </button>
-    </div>
-</div>
+                        <span class="text-sm font-bold text-slate-400 block mb-1">先貼上這段prompt</span></span>
+                        <div id="q1-1" class="bg-slate-50 p-3 rounded-lg border text-slate-700" h-40 overflow-y-auto">
+                               你現在是一位專業的四格漫畫（4-panel Comic）家，擅長將艱澀知識拆解為容易理解的四格漫畫。
+                               請針對以下年級及主題，為我整理出適合製作成四格漫畫的內容：
+                               - 📌 年級：[請輸入年級]
+                               - 📌 主題：[請輸入主題]
+                               請針對以上資訊，提供以下內容：
+                               1. 🎯【構思內容】：用一句話概括這張漫畫要傳達的核心訊息，根據年級程度，提供 3-5 組故事方案。每組需簡述四格內容（起、承、轉、合），包括角色、對白或旁白以及核心學習內容。
+                               2. 🎨【色彩與風格】：建議4-6套適合漫畫的色彩組合，以及4-6種適合的漫畫風格。
+                               🔢 請使用繁體中文輸出，具備漫畫敘事特質，並所有項目標上編號，方便我直接用代號回應。
+                        </div>
                     </div>
                     <button onclick="copy('q1-1')" class="copy-btn bg-[#137a74] text-white px-5 py-3 rounded-lg font-bold">複製</button>
                 </div>
