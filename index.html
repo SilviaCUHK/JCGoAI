@@ -3,74 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>快問慢想實驗室</title>
+    <title>親子工作坊 - 視覺化學習</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .copy-btn:active { transform: scale(0.95); }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body class="bg-[#f0f2f5] p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto mb-8">
-        <div class="bg-[#1a3646] p-6 rounded-lg text-white mb-6">
-            <h1 class="text-3xl font-bold">快問慢想實驗室</h1>
-            <p class="mt-2 opacity-80">按活動內容，複製後貼到 AI 平台。每個按鈕只複製該步驟需要貼上的文字。</p>
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-[#1a3646] p-8 rounded-2xl text-white mb-8 shadow-lg">
+            <h1 class="text-3xl font-bold text-center">親子工作坊：視覺化學習</h1>
+            <p class="mt-4 text-center text-teal-100 opacity-90">請根據你的需要，點擊下方分類並複製對應的 Prompt 內容。</p>
         </div>
-        
-        <h2 class="text-3xl font-bold text-slate-800 mb-4">活動三：由快問變成慢問</h2>
-        
-        <div class="flex gap-2 mb-8">
-            <button class="bg-white px-6 py-2 rounded-full shadow-sm border font-medium">全部</button>
-            <button class="bg-[#137a74] text-white px-6 py-2 rounded-full shadow-sm font-medium">學生</button>
-            <button class="bg-white px-6 py-2 rounded-full shadow-sm border font-medium text-slate-500">家長</button>
-        </div>
-    </div>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div class="bg-white rounded-xl shadow-md border-l-4 border-blue-600 p-6 flex flex-col">
-            <h3 class="text-xl font-bold mb-6 text-slate-700">學生快問 例子</h3>
-            
-            <div class="space-y-8 flex-1">
-                <div class="flex items-center gap-2">
-                    <div class="flex-1">
-                        <span class="text-sm font-bold text-slate-400 block mb-1">第 1 步 <span class="font-normal">先貼上快問</span></span>
-                        <div id="q1-1" class="bg-slate-50 p-3 rounded-lg border text-slate-700">我嚟緊考試考得差點算好？</div>
-                    </div>
-                    <button onclick="copy('q1-1')" class="copy-btn bg-[#137a74] text-white px-5 py-3 rounded-lg font-bold">複製</button>
-                </div>
-
-                <div class="flex items-end gap-2 border-t pt-4">
-                    <div class="flex-1">
-                        <span class="text-sm font-bold text-slate-400 block mb-1">第 2 步 <span class="font-normal">Gems 追問後貼上補充資料</span></span>
-                        <div id="q1-2" class="bg-slate-50 p-3 rounded-lg border text-sm text-slate-600 leading-relaxed h-40 overflow-y-auto">
-                            1. **情境：** 剛剛完成嘅考試，中英文表現遠低過預期... (這裡可以貼上長文字內容)
-                        </div>
-                    </div>
-                    <button onclick="copy('q1-2')" class="copy-btn bg-[#137a74] text-white px-5 py-3 rounded-lg font-bold">複製</button>
-                </div>
+        <div class="bg-orange-50 border-2 border-orange-200 p-6 rounded-xl mb-8">
+            <h3 class="text-lg font-bold text-orange-800 mb-3">💡 建議年級及課題參考：</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-orange-900">
+                <ul class="list-disc ml-5">
+                    <li>小四：簡易電路原理</li>
+                    <li>小六：人體呼吸系統</li>
+                    <li>中二：香港司法制度</li>
+                </ul>
+                <ul class="list-disc ml-5">
+                    <li>小五：光合作用</li>
+                    <li>中一：細胞結構</li>
+                    <li>中三：全球暖化</li>
+                </ul>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md border-l-4 border-orange-500 p-6 flex flex-col">
-            <h3 class="text-xl font-bold mb-6 text-slate-700">學生快問：問題 1</h3>
-            <p class="text-slate-400 text-sm italic">內容仿照上述結構填寫即可</p>
-        </div>
+        <div class="space-y-6">
 
+            <div class="bg-white rounded-xl shadow-md border-t-4 border-teal-600 overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-teal-800 mb-4">四格漫畫（只有主題及年級）</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="border rounded-lg p-4 bg-slate-50">
+                            <span class="font-bold text-slate-500">第一步：分析與構思</span>
+                            <p id="p1" class="hidden">你現在是一位專業的四格漫畫（4-panel Comic）家，擅長將艱澀知識拆解為容易理解的四格漫畫。\n請針對以下年級及主題，為我整理出適合製作成四格漫畫的內容：\n- 年級：[請輸入年級]\n- 主題：[請輸入主題]\n請針對以上資訊，提供以下內容：\n1. 構思內容：用一句話概括這張漫畫要傳達的核心訊息，根據年級程度，提供 3-5 組故事方案。每組需簡述四格內容（起、承、轉、合），包括角色、對白或旁白以及核心學習內容。\n2. 色彩與風格：建議4-6套適合漫畫的色彩組合，以及4-6種適合的漫畫風格。\n請使用繁體中文輸出，具備漫畫敘事特質，並所有項目標上編號，方便我直接用代號回應。</p>
+                            <button onclick="copyText('p1')" class="mt-3 w-full bg-teal-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-700">複製第一步 Prompt</button>
+                        </div>
+                        
+                        <div class="border rounded-lg p-4 bg-slate-50 text-right">
+                            <span class="font-bold text-slate-500 block text-left">第二步：生成漫畫</span>
+                            <p id="p2" class="hidden">我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的四格漫畫（4-gpanel Comic）。</p>
+                            <button onclick="copyText('p2')" class="mt-3 w-full bg-teal-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-700">複製第二步 Prompt</button>
+                        </div>
+
+                        <div class="border rounded-lg p-4 bg-slate-50 text-right">
+                            <span class="font-bold text-slate-500 block text-left">第三步：整合教學</span>
+                            <p id="p3" class="hidden">根據以上四格漫畫，整合詳細溫習指令及親子活動/遊戲建議。</p>
+                            <button onclick="copyText('p3')" class="mt-3 w-full bg-teal-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-700">複製第三步 Prompt</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md border-t-4 border-blue-600 overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-blue-800 mb-4">資訊圖表（只有主題及年級）</h2>
+                    <div class="space-y-4">
+                        <div class="border rounded-lg p-4 bg-slate-50">
+                            <p id="p4" class="hidden">你現在是一位專業的資訊圖表（Infographic）設計顧問，擅長將深奧知識轉化為視覺化的教育素材。\n請針對以下年級及主題，為我整理出適合製作成資訊圖表的內容：\n- 年級：[請輸入年級]\n- 主題：[請輸入主題]\n請針對以上資訊，提供以下內容：\n1. 構思內容：用一句話概括這張圖表要解決什麼問題, 並根據年級程度，提供 3-5 個最重要的核心知識點和解釋說明，為每個點設計一個「視覺隱喻」。\n2. 排版佈局：建議三種具體Infographics的構圖方式，並說明理由。\n3. 色彩與風格：建議4-6套配色方案，以及4-6種適合的藝術風格。\n請用繁體中文輸出，具備圖表特質，並所有項目標上編號，方便我直接用代號回應。</p>
+                            <button onclick="copyText('p4')" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700">複製第一步 Prompt</button>
+                        </div>
+                        <p id="p5" class="hidden text-xs">我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的資訊圖表（Infographic）。</p>
+                        <p id="p6" class="hidden text-xs">根據以上資訊圖表，整合詳細溫習指令及親子活動/遊戲建議。</p>
+                        <div class="flex gap-2">
+                            <button onclick="copyText('p5')" class="flex-1 bg-blue-100 text-blue-700 py-2 rounded-lg font-bold">複製第二步</button>
+                            <button onclick="copyText('p6')" class="flex-1 bg-blue-100 text-blue-700 py-2 rounded-lg font-bold">複製第三步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center py-8 text-slate-400 text-sm">
+                <p>© 2026 快問慢想實驗室 - 專為家長設計的視覺化 AI 工具</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        function copy(id) {
-            const text = document.getElementById(id).innerText;
+        function copyText(id) {
+            const text = document.getElementById(id).innerText.replace(/\\n/g, '\n');
             navigator.clipboard.writeText(text).then(() => {
                 const btn = event.target;
-                const oldText = btn.innerText;
-                btn.innerText = '已複製';
-                btn.style.backgroundColor = '#10b981'; // 變綠色
+                const originalText = btn.innerText;
+                btn.innerText = '✅ 已成功複製！';
+                btn.classList.add('bg-green-500');
                 setTimeout(() => {
-                    btn.innerText = oldText;
-                    btn.style.backgroundColor = '#137a74';
-                }, 1500);
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-green-500');
+                }, 2000);
             });
         }
     </script>
