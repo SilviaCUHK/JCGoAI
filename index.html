@@ -5,47 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>親子工作坊_視覺化學習</title>
     <style>
-        :root { --dark-blue: #003366; --light-blue: #e3f2fd; --active-blue: #90caf9; }
-        body { font-family: -apple-system, sans-serif; margin: 0; background: #f5f5f5; color: #333; }
-        
-        /* 標題欄 */
-        header { background: var(--dark-blue); color: white; padding: 20px; text-align: center; }
-        header h1 { margin: 0; font-size: 1.8rem; }
-        header p { margin: 10px 0 0; opacity: 0.9; font-size: 0.9rem; }
+        :root {
+            --dark-blue: #003366;
+            --white: #ffffff;
+            --light-blue: #e3f2fd;
+            --accent-blue: #bbdefb;
+            --grey: #f4f4f4;
+            --teal: #00796b;
+            --green: #2e7d32;
+        }
 
-        /* 活動選單 */
-        .nav-container { display: flex; justify-content: center; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .nav-btn { padding: 15px 20px; border: none; background: none; cursor: pointer; font-weight: bold; font-size: 1rem; flex: 1; max-width: 300px; transition: 0.3s; }
-        .nav-btn:hover { background: var(--light-blue); }
-        .nav-btn.active { background: var(--active-blue); color: var(--dark-blue); border-bottom: 3px solid var(--dark-blue); }
+        body { font-family: -apple-system, "Segoe UI", sans-serif; margin: 0; background: var(--grey); color: #333; }
 
-        /* 內容區 */
-        .content { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: none; }
-        .content.active { display: block; }
+        /* 標題區域 */
+        header { background-color: var(--dark-blue); color: var(--white); padding: 25px 15px; text-align: center; }
+        header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; }
+        header p { margin: 12px 0 0; opacity: 0.9; font-size: 0.9rem; line-height: 1.5; }
 
-        /* 子標籤切換 (全部/年級及主題...) */
-        .sub-nav { margin-bottom: 15px; }
-        .sub-btn { padding: 8px 15px; margin-right: 5px; border: 1px solid #ddd; border-radius: 20px; background: white; cursor: pointer; }
-        .sub-btn.active { background: var(--dark-blue); color: white; }
+        /* 主導航 */
+        .main-nav { display: flex; background: var(--white); border-bottom: 1px solid #ddd; sticky; top: 0; z-index: 100; overflow-x: auto; }
+        .nav-item {
+            flex: 1; padding: 15px 10px; border: none; background: none; font-weight: bold; cursor: pointer;
+            transition: 0.3s; border-bottom: 4px solid transparent; white-space: nowrap; font-size: 0.95rem;
+        }
+        .nav-item.active { background-color: var(--light-blue); border-bottom-color: var(--dark-blue); color: var(--dark-blue); }
 
-        /* 卡片排版 */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-top: 4px solid var(--dark-blue); }
-        .card-title { font-weight: bold; margin-bottom: 10px; color: var(--dark-blue); }
+        /* 內容區塊 */
+        .tab-content { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+
+        /* 子標籤切換 */
+        .sub-nav { margin-bottom: 20px; text-align: center; display: flex; justify-content: center; gap: 10px; }
+        .sub-btn {
+            padding: 8px 18px; border: 1px solid var(--dark-blue); 
+            background: var(--white); border-radius: 20px; cursor: pointer; font-size: 0.85rem;
+        }
+        .sub-btn.active { background: var(--accent-blue); font-weight: bold; }
+
+        /* 三欄排版 */
+        .column-wrapper { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; scroll-snap-type: x mandatory; }
+        .column {
+            background: var(--white); min-width: 300px; flex: 1; 
+            padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--dark-blue); scroll-snap-align: start;
+        }
+        .column h3 { margin-top: 0; color: var(--dark-blue); font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
 
         /* Prompt 容器 */
-        .prompt-box { position: relative; background: #fafafa; border: 1px solid #eee; border-radius: 4px; padding: 10px; margin-bottom: 10px; }
-        .prompt-text { font-size: 0.9rem; max-height: 150px; overflow-y: auto; white-space: pre-wrap; color: #555; padding-right: 60px; }
-        .copy-btn { position: absolute; top: 10px; right: 10px; background: #00796b; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+        .prompt-box { position: relative; background: #fafafa; border: 1px solid #ddd; border-radius: 5px; padding: 12px; margin-bottom: 15px; }
+        .prompt-text { height: 160px; overflow-y: auto; font-size: 0.85rem; white-space: pre-wrap; color: #444; line-height: 1.5; }
+        
+        /* 按鈕樣式 */
+        .copy-btn { width: 100%; background: var(--teal); color: white; border: none; border-radius: 4px; cursor: pointer; padding: 12px; font-weight: bold; transition: 0.2s; }
+        .copy-btn:active { transform: scale(0.98); opacity: 0.9; }
+        .copy-mini { background: var(--dark-blue); color: white; border: none; border-radius: 3px; cursor: pointer; padding: 4px 8px; font-size: 0.75rem; }
+        .copied { background: var(--green) !important; }
 
-        /* 表格樣式 */
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
-        th { background: #f0f0f0; }
+        /* 建議課題清單 */
+        .extra-section { background: #fdfdfd; border: 1px solid #eee; border-radius: 5px; padding: 10px; margin-top: 10px; }
+        .extra-title { font-weight: bold; font-size: 0.9rem; margin-bottom: 8px; display: block; color: #555; }
+        .extra-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #eee; font-size: 0.85rem; }
+        .extra-item:last-child { border-bottom: none; }
 
-        /* 連結按鈕 */
-        .link-card { text-align: center; padding: 40px; background: white; border-radius: 10px; }
-        .gem-link { display: inline-block; padding: 15px 30px; background: #1a73e8; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; }
+        /* 活動一連結 */
+        .act1-container { text-align: center; padding: 60px 20px; background: white; border-radius: 10px; margin-top: 20px; }
+        .btn-link { display: inline-block; padding: 18px 40px; background: #4285f4; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem; }
+
+        .sub-section { display: none; }
+        .sub-section.active { display: block; }
     </style>
 </head>
 <body>
@@ -55,86 +82,187 @@
     <p>按活動選內容，複製後貼到 AI 平台或 Gemini Gems。<br>每個按鈕只複製該步驟需要貼上的文字。</p>
 </header>
 
-<div class="nav-container">
-    <button class="nav-btn active" onclick="showTab('act1')">活動一 Flashcard 圖卡</button>
-    <button class="nav-btn" onclick="showTab('act2')">活動二 4-panel Comic 四格漫畫</button>
-    <button class="nav-btn" onclick="showTab('act3')">活動二 Infographics 資訊圖表</button>
-</div>
+<nav class="main-nav">
+    <button class="nav-item active" onclick="switchMainTab('act1', this)">活動一 Flashcard 圖卡</button>
+    <button class="nav-item" onclick="switchMainTab('act2', this)">活動二 4-panel Comic 四格漫畫</button>
+    <button class="nav-item" onclick="switchMainTab('act3', this)">活動二 Infographics 資訊圖表</button>
+</nav>
 
-<div id="act1" class="content active">
-    <div class="link-card">
+<section id="act1" class="tab-content active">
+    <div class="act1-container">
         <h2>活動一：Gemini Gems 應用</h2>
-        <p>點擊下方按鈕前往 Gemini Gems 專用連結：</p>
-        <a href="https://gemini.google.com/gems" target="_blank" class="gem-link">打開 Gemini Gems 網站</a>
+        <p style="margin-bottom: 30px; color: #666;">點擊下方按鈕前往專屬 Gemini Gems 頁面：</p>
+        <a href="https://gemini.google.com/gems" target="_blank" class="btn-link">🚀 打開 Gemini Gems 網站</a>
     </div>
-</div>
+</section>
 
-<div id="act2" class="content">
-    <div id="act2-list" class="grid"></div>
-</div>
+<section id="act2" class="tab-content">
+    <div class="sub-nav">
+        <button class="sub-btn active" onclick="switchSubTab('act2', 'all', this)">全部</button>
+        <button class="sub-btn" onclick="switchSubTab('act2', 'topic', this)">年級及主題</button>
+        <button class="sub-btn" onclick="switchSubTab('act2', 'book', this)">年級和課本內容</button>
+    </div>
+    
+    <div id="act2-all" class="sub-section active">
+        <div id="act2-topic-content"></div>
+        <div id="act2-book-content" style="margin-top: 30px;"></div>
+    </div>
+    <div id="act2-topic" class="sub-section"></div>
+    <div id="act2-book" class="sub-section"></div>
+</section>
 
-<div id="act3" class="content">
-    <div id="act3-list" class="grid"></div>
-</div>
+<section id="act3" class="tab-content">
+    <div class="sub-nav">
+        <button class="sub-btn active" onclick="switchSubTab('act3', 'all', this)">全部</button>
+        <button class="sub-btn" onclick="switchSubTab('act3', 'topic', this)">年級及主題</button>
+        <button class="sub-btn" onclick="switchSubTab('act3', 'book', this)">年級和課本內容</button>
+    </div>
+    
+    <div id="act3-all" class="sub-section active">
+        <div id="act3-topic-content"></div>
+        <div id="act3-book-content" style="margin-top: 30px;"></div>
+    </div>
+    <div id="act3-topic" class="sub-section"></div>
+    <div id="act3-book" class="sub-section"></div>
+</section>
 
 <script>
-    function showTab(id) {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    // ---------------- 數據定義 ----------------
+    const prompts = {
+        comic: {
+            topic: [
+                {
+                    title: "第一步：內容生成",
+                    prompt: `你現在是一位專業的四格漫畫（4-panel Comic）家，擅長將艱澀知識拆解為容易理解的四格漫畫。\n請針對以下年級及主題，為我整理出適合製作成四格漫畫的內容：\n- 年級：[請輸入年級]\n- 主題：[請輸入主題]\n請針對以上資訊，提供以下內容：\n1. 構思內容：用一句話概括這張漫畫要傳達的核心訊息，根據年級程度，提供 3-5 組故事方案。每組需簡述四格內容（起、承、轉、合），包括角色、對白或旁白以及核心學習內容。\n2. 色彩與風格：建議4-6套適合漫畫的色彩組合，以及4-6種適合的漫畫風格。\n請使用繁體中文輸出，具備漫畫敘事特質，並所有項目標上編號，方便我直接用代號回應。`,
+                    extra: [
+                        { label: "P.4 熱的傳導", text: "年級：小四 P.4\n主題：熱的傳導（Conduction）" },
+                        { label: "P.5 空氣污染", text: "年級：小五 P.5\n主題：空氣污染(Air Pollution)" },
+                        { label: "P.6 閉合電路", text: "年級：小六 P.6\n主題：閉合電路（Closed Circuit）" },
+                        { label: "S.1 水資源危機", text: "年級：中一 S.1\n主題：水資源危機（Water Scarcity）" },
+                        { label: "S.2 近視的成因", text: "年級：中二 S.2\n主題：近視的成因(Causes of Short-sight)" },
+                        { label: "S.2 牛頓第一定律", text: "年級：小五 S.2\n主題：牛頓第一定律（Law of Inertia）" }
+                    ]
+                },
+                { title: "第二步：圖像生成", prompt: `我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的四格漫畫（4-gpanel Comic）。` },
+                { title: "第三步：溫習與延伸", prompt: `根據以上四格漫畫，整合詳細溫習指令及親子活動/遊戲建議。` }
+            ],
+            book: [
+                {
+                    title: "第一步：內容生成",
+                    prompt: `你現在是一位專業的四格漫畫（4-panel Comic）家，擅長將艱澀知識拆解為容易理解的四格漫畫。\n請針對以下年級及資料，為我整理出適合製作成四格漫畫的內容：\n- 年級：[請輸入年級]\n- 參考資料：[請提供課本文字內容或上傳照片]\n請針對以上資訊，提供以下內容：\n1. 知識提取：若我提供的是圖片，請先列出你從圖中識別出的 3 個關鍵知識點，確保內容準確。\n2. 構思內容：用一句話概括這張漫畫要傳達的核心訊息，根據年級程度，提供 3-5 組故事方案。每組需簡述四格內容（起、承、轉、合），包括角色、對白或旁白以及核心學習內容。\n3. 色彩與風格：建議4-6套適合漫畫的色彩組合，以及4-6種適合的漫畫風格。\n請使用繁體中文輸出，具備漫畫敘事特質，並所有項目標上編號，方便我直接用代號回應。`
+                },
+                { title: "第二步：圖像生成", prompt: `我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的四格漫畫（4-panel Comic）。` },
+                { title: "第三步：溫習與延伸", prompt: `根據以上四格漫畫，整合詳細溫習指令及親子活動/遊戲建議。` }
+            ]
+        },
+        info: {
+            topic: [
+                {
+                    title: "第一步：內容生成",
+                    prompt: `你現在是一位專業的資訊圖表（Infographic）設計顧問，擅長將深奧知識轉化為視覺化的教育素材 。\n請針對以下年級及主題，為我整理出適合製作成資訊圖表的內容：\n- 年級：[請輸入年級]\n- 主題：[請輸入主題]\n請針對以上資訊，提供以下內容：\n1. 構思內容：用一句話概括這張圖表要解決什麼問題, 並根據年級程度，提供 3-5 個最重要的核心知識點和解釋說明，為每個點設計一個「視覺隱喻」。\n2. 排版佈局：建議三種具體Infographics的構圖方式，並說明理由。\n3. 色彩與風格：建議4-6套配色方案，以及4-6種適合的藝術風格。\n請用繁體中文輸出，具備圖表特質，並所有項目標上編號，方便我直接用代號回應。`,
+                    extra: [
+                        { label: "P.4 簡易電路原理", text: "年級：小四 P.4\n主題：簡易電路原理 (電池、電線、燈泡)" },
+                        { label: "小五 光合作用", text: "年級：小五\n主題：光合作用 (植物能量轉換)" },
+                        { label: "小六 呼吸系統", text: "年級：小六\n主題：人體呼吸系統 (肺部運作原理)" },
+                        { label: "中一 細胞結構", text: "年級：中一\n主題：細胞結構 (動物 vs 植物細胞)" },
+                        { label: "中二 司法制度", text: "年級：中二\n主題：香港司法制度簡介 (法律的階梯)" },
+                        { label: "中三 全球暖化", text: "年級：中三\n主題：全球暖化 (鎖反應與回饋機制)" }
+                    ]
+                },
+                { title: "第二步：圖像生成", prompt: `我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的資訊圖表（Infographic）。` },
+                { title: "第三步：溫習與延伸", prompt: `根據以上資訊圖表，整合詳細溫習指令及親子活動/遊戲建議。` }
+            ],
+            book: [
+                {
+                    title: "第一步：內容生成",
+                    prompt: `你現在是一位專業的資訊圖表（Infographic）設計顧問 ，擅長將深奧知識轉化為視覺化的教育素材 。\n請針對以下年級及資料，為我整理出適合製作成資訊圖表的內容：\n- 年級：[請輸入年級]\n- 參考資料：[請提供課本文字內容或上傳照片]\n請針對以上資訊，提供以下內容：\n1. 整理資料：用一句話概括這張圖表要解決什麼問題, 並根據年級程度，從資料/圖片中提取 3-5 個最重要的核心知識點，為每個點設計一個「視覺隱喻」。\n2. 排版佈局：建議三種具體Infographics的構圖方式，並說明理由。\n3. 色彩與風格：建議4-6套配色方案，以及4-6種適合的藝術風格。\n請用繁體中文輸出，具備圖表特質，並為所有項目標上編號，方便我直接用代號回應。`
+                },
+                { title: "第二步：圖像生成", prompt: `我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的資訊圖表（Infographic）。` },
+                { title: "第三步：溫習與延伸", prompt: `根據以上資訊圖表，整合詳細溫習指令及親子活動/遊戲建議。` }
+            ]
+        }
+    };
+
+    // ---------------- 渲染邏輯 ----------------
+
+    function switchMainTab(id, btn) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        event.currentTarget.classList.add('active');
+        btn.classList.add('active');
     }
 
-    function copyText(btn, text) {
+    function switchSubTab(actId, subId, btn) {
+        const container = document.getElementById(actId);
+        container.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
+        container.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+        
+        if(subId === 'all') {
+            container.querySelector('#' + actId + '-all').classList.add('active');
+        } else {
+            container.querySelector('#' + actId + '-' + subId).classList.add('active');
+        }
+        btn.classList.add('active');
+    }
+
+    function copy(text, btn) {
         navigator.clipboard.writeText(text).then(() => {
-            const originalText = btn.innerText;
-            btn.innerText = '✅ 已複製';
-            btn.style.background = '#2e7d32';
+            const original = btn.innerText;
+            btn.innerText = "✅ 已複製";
+            btn.classList.add('copied');
             setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = '#00796b';
+                btn.innerText = original;
+                btn.classList.remove('copied');
             }, 2000);
         });
     }
 
-    // 這裡為了簡化，直接將你的複雜 Prompt 數據寫在 JS 裡，你也可以放回 txt 加載
-    const act2Data = [
-        {
-            title: "第一步：內容生成",
-            prompt: `你現在是一位專業的四格漫畫（4-panel Comic）家... (此處填入你的完整 Prompt)`,
-            table: `<table><tr><th>年級</th><th>主題建議</th></tr><tr><td>P.4</td><td>熱的傳導</td></tr><tr><td>P.5</td><td>空氣污染</td></tr><tr><td>P.6</td><td>閉合電路</td></tr><tr><td>S.1</td><td>水資源危機</td></tr><tr><td>S.2</td><td>近視的成因</td></tr><tr><td>S.3</td><td>牛頓第一定律</td></tr></table>`
-        },
-        {
-            title: "第二步：圖像生成",
-            prompt: `我已經決定好設計細節：[請輸入代號或文字]\n請扮演 AI 視覺工程師，回顧對話紀錄中的內容與視覺設定，為我生成一張中文的四格漫畫（4-panel Comic）。`
-        },
-        {
-            title: "第三步：溫習與延伸",
-            prompt: `根據以上四格漫畫，整合詳細溫習指令及親子活動/遊戲建議。`
-        }
-    ];
-
-    // 渲染函數 (省略部分重複邏輯以節省篇幅，確保邏輯正確即可)
-    function render(containerId, data) {
-        const container = document.getElementById(containerId);
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-title">${item.title}</div>
-                <div class="prompt-box">
-                    <button class="copy-btn" onclick="copyText(this, \`${item.prompt}\`)">複製</button>
-                    <div class="prompt-text">${item.prompt}</div>
-                </div>
-                ${item.table || ''}
-            `;
-            container.appendChild(card);
+    function generateColsHTML(dataArray, labelText) {
+        let html = `<h4 style="margin: 10px 0; color: #666;">分類：${labelText}</h4>`;
+        html += `<div class="column-wrapper">`;
+        dataArray.forEach(col => {
+            html += `
+                <div class="column">
+                    <h3>${col.title}</h3>
+                    <div class="prompt-box">
+                        <div class="prompt-text">${col.prompt}</div>
+                    </div>
+                    <button class="copy-btn" onclick="copy(\`${col.prompt.replace(/`/g, '\\`')}\`, this)">全部複製</button>
+                    ${col.extra ? `
+                        <div class="extra-section">
+                            <span class="extra-title">建議年級及課題：</span>
+                            ${col.extra.map(e => `
+                                <div class="extra-item">
+                                    <span>${e.label}</span>
+                                    <button class="copy-mini" onclick="copy(\`${e.text}\`, this)">複製</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>`;
         });
+        html += `</div>`;
+        return html;
     }
 
-    // 啟動渲染 (你可以根據需要補齊數據)
-    render('act2-list', act2Data);
-    // 活動三 logic 同上...
+    // 初始化頁面內容
+    window.onload = () => {
+        // 活動二
+        const act2Topic = generateColsHTML(prompts.comic.topic, "年級及主題");
+        const act2Book = generateColsHTML(prompts.comic.book, "年級和課本內容");
+        document.getElementById('act2-topic-content').innerHTML = act2Topic;
+        document.getElementById('act2-book-content').innerHTML = act2Book;
+        document.getElementById('act2-topic').innerHTML = act2Topic;
+        document.getElementById('act2-book').innerHTML = act2Book;
+
+        // 活動三
+        const act3Topic = generateColsHTML(prompts.info.topic, "年級及主題");
+        const act3Book = generateColsHTML(prompts.info.book, "年級和課本內容");
+        document.getElementById('act3-topic-content').innerHTML = act3Topic;
+        document.getElementById('act3-book-content').innerHTML = act3Book;
+        document.getElementById('act3-topic').innerHTML = act3Topic;
+        document.getElementById('act3-book').innerHTML = act3Book;
+    };
 </script>
 
 </body>
