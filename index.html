@@ -1,166 +1,133 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>親子工作坊 - 視覺化學習</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>親子 AI 工作坊 - 快速指令複製</title>
     <style>
-        /* 讓滑動條美化一點 */
-        .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #999; }
-        .copy-btn:active { transform: scale(0.95); }
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            font-size: 1.5rem;
+        }
+        .desc {
+            text-align: center;
+            color: #5f6368;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #202124;
+            border-left: 4px solid #1a73e8;
+            padding-left: 8px;
+        }
+        .card-content {
+            font-size: 0.95rem;
+            color: #3c4043;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .copy-btn {
+            width: 100%;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .copy-btn:active {
+            background-color: #174ea6;
+            transform: scale(0.98);
+        }
+        .success-btn {
+            background-color: #188038 !important;
+        }
+        #loading { text-align: center; padding: 20px; }
     </style>
 </head>
-<body class="bg-[#f0f2f5] p-4 md:p-8 text-slate-800">
-
-    <div class="max-w-7xl mx-auto bg-[#1a3646] p-6 rounded-lg text-white mb-8 shadow-lg">
-        <h1 class="text-4xl font-bold mb-2">親子工作坊 - 視覺化學習</h1>
-        <p class="opacity-90">按活動內容，複製後貼到 AI 平台或 Gemini Gems。每個按鈕只複製該步驟需要貼上的文字。</p>
-    </div>
-
-    <div class="max-w-7xl mx-auto flex gap-4 mb-8">
-        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm opacity-50">活動一：Flashcard 圖卡</div>
-        <div class="flex-1 bg-white p-4 rounded-lg border shadow-sm opacity-50">活動二：4-panel Comic 四格漫畫</div>
-        <div class="flex-1 bg-[#137a74] text-white p-4 rounded-lg border shadow-md font-bold">活動二：Infographics 資訊圖表</div>
-   
-
-        <div class="bg-white rounded-xl shadow-md border-l-8 border-orange-500 p-6 flex flex-col">
-            <h3 class="text-2xl font-bold mb-6 text-slate-700 border-b pb-4">學生快問：問題 1</h3>
-            <div class="mb-8">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 1 步</span><span class="text-slate-400 text-sm ml-2">先貼上快問</span></div>
-                    <button onclick="copyText('q2-1')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q2-1" class="bg-slate-50 p-4 rounded-lg border text-lg min-h-[80px]">每天功課很多，我可以點樣分配好時間？</div>
-            </div>
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 2 步</span><span class="text-slate-400 text-sm ml-2">補充資料</span></div>
-                    <button onclick="copyText('q2-2')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q2-2" class="bg-slate-50 p-4 rounded-lg border custom-scroll h-64 overflow-y-auto leading-relaxed" style="white-space: pre-wrap;">1. **情境：** 我每日5點返到屋企。中英數主科日日都有功課，中英文通常1張工作紙加1-3頁作業，數學仲多，有3-6頁。
-2. **行為：** 我通常做功課做到7點幾食飯，10點後再繼續做。但我好好容易分心拖延，結果下下搞到12點先有得瞓。
-3. **感受：** 覺得好攰、好大壓力，每晚望住個鐘都會對自己成日都做唔完嘢感到好焦慮。</div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md border-l-8 border-orange-800 p-6 flex flex-col">
-            <h3 class="text-2xl font-bold mb-6 text-slate-700 border-b pb-4">學生快問：問題 2</h3>
-            <div class="mb-8">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 1 步</span><span class="text-slate-400 text-sm ml-2">先貼上快問</span></div>
-                    <button onclick="copyText('q3-1')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q3-1" class="bg-slate-50 p-4 rounded-lg border text-lg min-h-[80px]">我是不是不夠好？</div>
-            </div>
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 2 步</span><span class="text-slate-400 text-sm ml-2">補充資料</span></div>
-                    <button onclick="copyText('q3-2')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q3-2" class="bg-slate-50 p-4 rounded-lg border custom-scroll h-64 overflow-y-auto leading-relaxed" style="white-space: pre-wrap;">1. **情境：** 其實無特別發生咩事引起。只係睇到身邊個個同學都有獨特嘅天賦，又受歡迎，對比之下覺得自己成績唔好，運動又唔叻，又唔係靚仔靚女。
-2. **行為：** 我無特別做啲咩，只係將呢個想法一直擺喺腦袋入面不停咁諗，習慣不斷將自己同其他人比較。
-3. **感受：** 覺得自己好普通、無優點，亦都好驚俾人睇唔起，心裡面成日有一把聲同自己講：「我只係普通人一個...」</div>
-            </div>
-        </div>
-    <div class="max-w-7xl mx-auto mb-8">
-        <h2 class="text-3xl font-bold mb-6">活動三：由快問變成慢問</h2>
-        <div class="flex gap-2">
-            <button class="px-6 py-1 rounded-full border bg-[#137a74] text-white">全部</button>
-            <button class="px-6 py-1 rounded-full border bg-white hover:bg-slate-50">學生</button>
-            <button class="px-6 py-1 rounded-full border bg-white hover:bg-slate-50">家長</button>
-        </div>
-    </div>
-
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <div class="bg-white rounded-xl shadow-md border-l-8 border-blue-600 p-6 flex flex-col">
-            <h3 class="text-2xl font-bold mb-6 text-slate-700 border-b pb-4">學生快問 例子</h3>
-            
-            <div class="mb-8">
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <span class="font-bold text-lg">第 1 步</span>
-                        <span class="text-slate-400 text-sm ml-2 font-normal">先貼上快問</span>
-                    </div>
-                    <button onclick="copyText('q1-1')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q1-1" class="bg-slate-50 p-4 rounded-lg border text-lg min-h-[80px]">我嚟緊考試考得差點算好？</div>
-            </div>
-
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <span class="font-bold text-lg">第 2 步</span>
-                        <span class="text-slate-400 text-sm ml-2 font-normal">Gems 追問後貼上補充資料</span>
-                    </div>
-                    <button onclick="copyText('q1-2')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q1-2" class="bg-slate-50 p-4 rounded-lg border custom-scroll h-64 overflow-y-auto leading-relaxed" style="white-space: pre-wrap;">1. **情境：** 剛剛完成嘅考試，中英文表現遠低過預期。中文比目標低咗10分；英文更加低咗25分，差啲唔及格。
-2. **行為：** 其實我上次考試已經好俾心機準備，但因為語文底子比較弱，詞彙量唔夠，睇唔明篇文章直接影響理解。結果努力同分數完全唔成正比。
-3. **感受：** 睇到份卷嗰陣真係覺得好失望、好無奈，有一種無論點辦都唔知點算好嘅無力感。</div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md border-l-8 border-orange-500 p-6 flex flex-col">
-            <h3 class="text-2xl font-bold mb-6 text-slate-700 border-b pb-4">學生快問：問題 1</h3>
-            <div class="mb-8">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 1 步</span><span class="text-slate-400 text-sm ml-2">先貼上快問</span></div>
-                    <button onclick="copyText('q2-1')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q2-1" class="bg-slate-50 p-4 rounded-lg border text-lg min-h-[80px]">每天功課很多，我可以點樣分配好時間？</div>
-            </div>
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 2 步</span><span class="text-slate-400 text-sm ml-2">補充資料</span></div>
-                    <button onclick="copyText('q2-2')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q2-2" class="bg-slate-50 p-4 rounded-lg border custom-scroll h-64 overflow-y-auto leading-relaxed" style="white-space: pre-wrap;">1. **情境：** 我每日5點返到屋企。中英數主科日日都有功課，中英文通常1張工作紙加1-3頁作業，數學仲多，有3-6頁。
-2. **行為：** 我通常做功課做到7點幾食飯，10點後再繼續做。但我好好容易分心拖延，結果下下搞到12點先有得瞓。
-3. **感受：** 覺得好攰、好大壓力，每晚望住個鐘都會對自己成日都做唔完嘢感到好焦慮。</div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md border-l-8 border-orange-800 p-6 flex flex-col">
-            <h3 class="text-2xl font-bold mb-6 text-slate-700 border-b pb-4">學生快問：問題 2</h3>
-            <div class="mb-8">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 1 步</span><span class="text-slate-400 text-sm ml-2">先貼上快問</span></div>
-                    <button onclick="copyText('q3-1')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q3-1" class="bg-slate-50 p-4 rounded-lg border text-lg min-h-[80px]">我是不是不夠好？</div>
-            </div>
-            <div class="flex-1 flex flex-col">
-                <div class="flex justify-between items-start mb-2">
-                    <div><span class="font-bold text-lg">第 2 步</span><span class="text-slate-400 text-sm ml-2">補充資料</span></div>
-                    <button onclick="copyText('q3-2')" class="copy-btn bg-[#137a74] text-white px-6 py-2 rounded-lg font-bold">複製</button>
-                </div>
-                <div id="q3-2" class="bg-slate-50 p-4 rounded-lg border custom-scroll h-64 overflow-y-auto leading-relaxed" style="white-space: pre-wrap;">1. **情境：** 其實無特別發生咩事引起。只係睇到身邊個個同學都有獨特嘅天賦，又受歡迎，對比之下覺得自己成績唔好，運動又唔叻，又唔係靚仔靚女。
-2. **行為：** 我無特別做啲咩，只係將呢個想法一直擺喺腦袋入面不停咁諗，習慣不斷將自己同其他人比較。
-3. **感受：** 覺得自己好普通、無優點，亦都好驚俾人睇唔起，心裡面成日有一把聲同自己講：「我只係普通人一個...」</div>
-            </div>
-        </div>
-
+<body>
+    <div class="container">
+        <h1>AI 指令快速複製</h1>
+        <p class="desc">點擊按鈕複製指令，再貼到 AI 平台即可！</p>
+        <div id="list"><div id="loading">載入中...</div></div>
     </div>
 
     <script>
-        function copyText(id) {
-            const text = document.getElementById(id).innerText;
+        async function loadPrompts() {
+            try {
+                const resp = await fetch('prompts.txt');
+                const text = await resp.text();
+                const lines = text.split('\n');
+                const listEl = document.getElementById('list');
+                listEl.innerHTML = '';
+
+                lines.forEach(line => {
+                    if (!line.trim() || line.startsWith('#')) return;
+                    const parts = line.split('|');
+                    if (parts.length < 2) return;
+
+                    const title = parts[0].trim();
+                    const content = parts.slice(1).join('|').trim();
+
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.innerHTML = `
+                        <div class="card-title">${title}</div>
+                        <div class="card-content">${content}</div>
+                        <button class="copy-btn" onclick="copyText(this, \`${content.replace(/`/g, '\\`')}\`)">複製指令</button>
+                    `;
+                    listEl.appendChild(div);
+                });
+            } catch (e) {
+                document.getElementById('list').innerHTML = '載入失敗，請確認 prompts.txt 是否存在。';
+            }
+        }
+
+        function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target;
                 const originalText = btn.innerText;
-                btn.innerText = '已複製';
-                btn.style.backgroundColor = '#10b981'; 
+                btn.innerText = '✅ 已複製！';
+                btn.classList.add('success-btn');
                 setTimeout(() => {
                     btn.innerText = originalText;
-                    btn.style.backgroundColor = '#137a74';
-                }, 1500);
+                    btn.classList.remove('success-btn');
+                }, 2000);
             });
         }
+        loadPrompts();
     </script>
 </body>
 </html>
